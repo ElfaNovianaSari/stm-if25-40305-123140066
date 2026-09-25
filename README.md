@@ -1,4 +1,4 @@
-# STM IF25-40305 — Portofolio Tugas
+# STM IF25-40305 
 
 Repositori tugas mata kuliah **IF25-40305 Sistem Teknologi Multimedia**.
 
