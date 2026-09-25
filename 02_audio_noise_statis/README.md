@@ -74,4 +74,4 @@ jupyter lab tugas_audio_noise_statis.ipynb
 
 Pilih kernel **Python (audio-noise)**. Notebook menulis ulang berkas `.wav` di folder ini saat dijalankan, jadi jalankan dari dalam direktori `02_audio_noise_statis/`.
 
-> **File dalam bentuk PDF :** berkas PDF diunggah dengan nama `audio_noise_statis.pdf`.
+> **File dalam bentuk PDF :** berkas PDF diunggah dengan nama `tugas_02_audio_noise_statis_123140066.pdf`.
