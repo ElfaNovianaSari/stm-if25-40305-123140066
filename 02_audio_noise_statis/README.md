@@ -32,8 +32,8 @@ Derau kipas dipilih karena bersifat **statis (stationary)** — energi dan sebar
 | `audio_original.wav` | Rekaman asli, 48.000 Hz mono, 16-bit PCM |
 | `audio_downsampled_naive_8k.wav` | Naive `x[::6]` → 8.000 Hz, **tanpa** filter anti-aliasing |
 | `audio_downsampled_clean_8k.wav` | `resample_poly` → 8.000 Hz, **dengan** filter anti-aliasing |
-| `audio_downsampled_naive_11025.wav` | Naive interpolasi linear → 11.025 Hz, tanpa filter |
-| `audio_downsampled_clean_11025.wav` | `resample_poly` (147/640) → 11.025 Hz, dengan filter |
+| `audio_downsampled_naive_5k.wav` | Naive interpolasi linear → 5.000 Hz, tanpa filter |
+| `audio_downsampled_clean_5k.wav` | `resample_poly` (up=5, down=48) → 5.000 Hz, dengan filter |
 
 ---
 
@@ -48,19 +48,19 @@ Derau kipas dipilih karena bersifat **statis (stationary)** — energi dan sebar
 | 5 | **Spektrogram STFT** + trade-off resolusi 3 skema jendela (256 / 1024 / 4096) |
 | 6 | **Mel-spektrogram** — skala perseptual, formant vokal lebih padat di frekuensi rendah |
 | 7 | Galeri gabungan 2×2: satu rekaman, empat sudut pandang |
-| 8 | Pembuktian aliasing pada **sinyal sintetis terkontrol** (48 kHz → 8 kHz dan → 11,025 kHz) |
+| 8 | Pembuktian aliasing pada **sinyal sintetis terkontrol** (48 kHz → 8 kHz dan → 5.000 Hz) |
 | 9 | Penerapan proses yang sama pada **rekaman asli** |
 
 ---
 
 ## Ringkasan Temuan
 
-- **Frekuensi dominan derau kipas:** ≈ 187,5 Hz (zona Bass). Energi derau terpusat pada frekuensi rendah–menengah (Sub-Bass & Bass), dan menurun bertahap ke arah Treble/Air.
-- **Pemisahan noise vs vokal:** pita energi di bawah 300 Hz tetap muncul saat hening maupun saat berbicara → penanda derau statis. Di atas 300 Hz, pola energi mengikuti aktivitas bicara.
-- **Trade-off resolusi STFT:** jendela pendek → waktu presisi, frekuensi kabur (Δf ≈ 188 Hz); jendela panjang → sebaliknya. Jendela 1024 dipakai sebagai kompromi.
-- **Aliasing (sinyal uji):** komponen 6.500 Hz pada target 8 kHz terlipat menjadi nada palsu 1.500 Hz (`f_alias = 8000 − 6500`). Hasil serupa pada target 11.025 kHz: 7.000 Hz → 4.025 Hz.
-- **Aliasing (rekaman asli):** efeknya halus karena >99% energi rekaman berada di bawah 4 kHz. Panel naive tetap memperlihatkan tambahan energi frekuensi rendah yang tidak muncul pada `resample_poly`.
-- **Kesimpulan:** filter anti-aliasing wajib dipakai sebelum penurunan laju sampel. Besar risiko aliasing ditentukan oleh ada-tidaknya filter **dan** seberapa jauh laju sampel diturunkan.
+- **Frekuensi dominan derau kipas:** berada di zona Bass, dengan puncak magnitudo yang jelas terlihat pada spektrum FFT segmen hening. Energi derau terpusat pada frekuensi rendah–menengah (Sub-Bass & Bass), dan menurun bertahap ke arah Treble/Air.
+- **Pemisahan noise vs vokal:** pita energi pada frekuensi rendah tetap muncul saat hening maupun saat berbicara → penanda derau statis. Pada frekuensi yang lebih tinggi, pola energi mengikuti aktivitas bicara.
+- **Trade-off resolusi STFT:** jendela pendek → waktu presisi, frekuensi kabur; jendela panjang → sebaliknya, frekuensi presisi namun waktu kabur. Jendela 1024 dipakai sebagai kompromi.
+- **Aliasing (sinyal uji):** komponen 6.500 Hz pada target 8.000 Hz terlipat menjadi nada palsu di sekitar 1.500 Hz sesuai prediksi lipatan alias. Efek serupa teramati pada percobaan target 5.000 Hz dengan komponen uji 7.000 Hz.
+- **Aliasing (rekaman asli):** efeknya tampak halus pada percobaan 8.000 Hz karena sebagian besar energi rekaman berada jauh di bawah Nyquist barunya. Pada percobaan 5.000 Hz — dengan Nyquist baru yang lebih dekat ke batas atas kandungan frekuensi suara sendiri — perbedaan antara panel naive dan `resample_poly` tampak lebih jelas secara visual pada spektrogram.
+- **Kesimpulan:** filter anti-aliasing wajib dipakai sebelum penurunan laju sampel. Besar risiko aliasing ditentukan oleh ada-tidaknya filter **dan** seberapa dekat Nyquist baru terhadap batas atas kandungan frekuensi sinyal asli.
 
 ---
 
