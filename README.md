@@ -33,8 +33,8 @@ stm-if25-40305-123140066/
     ├── audio_original.wav               # Rekaman asli (48 kHz)
     ├── audio_downsampled_naive_8k.wav   # Downsample naive → 8 kHz (tanpa filter)
     ├── audio_downsampled_clean_8k.wav   # Resampling terfilter → 8 kHz
-    ├── audio_downsampled_naive_11025.wav # Downsample naive → 11025 kHz (tanpa filter)
-    ├── audio_downsampled_clean_11025.wav # Resampling terfilter → 11025 kHz
+    ├── audio_downsampled_naive_5k.wav # Downsample naive → 5 kHz (tanpa filter)
+    ├── audio_downsampled_clean_5k.wav # Resampling terfilter → 5 kHz
     └── README.md                        # Catatan perangkat & sumber noise
 ```
 
